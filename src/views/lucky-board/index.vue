@@ -1,6 +1,6 @@
 <template>
   <div class="grid-container" ref="gridContainerRef">
-    <template v-for="(cell, index) in gridData" :key="index">
+    <!-- <template v-for="(cell, index) in gridData" :key="index">
       <div
         :style="{
           width: cellWidths[index] + 'px',
@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-    </template>
+    </template> -->
   </div>
 </template>
 
@@ -29,6 +29,8 @@
 import { ref, onMounted, onUnmounted } from "vue";
 
 import { gsap } from "gsap";
+
+import { Fireworks } from 'fireworks-js'
 
 import luckyColors from "../js/colors";
 
@@ -45,6 +47,8 @@ const gridData = Array.from({ length: 64 }).fill(null);
 const gridContainerRef = ref(null);
 const cellWidths = ref(Array(64).fill(0));
 const cellHeights = ref(Array(64).fill(0));
+
+const fireworks = ref(null);
 
 const updateGrid = () => {
   const gridContainer = gridContainerRef.value;
@@ -81,14 +85,23 @@ const updateGrid = () => {
         ? containerHeight - rowIndex * cellHeight
         : cellHeight;
   }
+
+  fireworks.value = new Fireworks(gridContainerRef.value, { /* options */ })
 };
 
 let isFlipping = false;
 let currentIndex = -1;
 const flippedCards = ref(Array(64).fill(false));
 
+
+
+
 const flipCard = async (index) => {
   if (!isFlipping) {
+    console.log("fire: ", fireworks.value)
+
+    fireworks.value.start()
+
     isFlipping = true;
     currentIndex = index;
 
