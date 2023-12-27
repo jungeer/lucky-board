@@ -1,22 +1,34 @@
 <template>
   <div class="grid-container" ref="gridContainerRef">
-    <div
-      v-for="(cell, index) in gridData"
-      :key="index"
-      :style="{
-        backgroundColor: colors[index],
-        width: cellWidths[index] + 'px',
-        height: cellHeights[index] + 'px',
-      }"
-      class="grid-cell"
-    >
-      {{ texts[index] }}
-    </div>
+    <template v-for="(cell, index) in gridData" :key="index">
+      <div
+        :style="{
+          width: cellWidths[index] + 'px',
+          height: cellHeights[index] + 'px',
+        }"
+        class="grid-cell"
+        @click="flipCard(index)"
+        :class="{ 'no-click': isFlipping && index !== currentIndex }"
+      >
+        <div class="card">
+          <div class="card-inner" :class="{ flipped: flippedCards[index] }">
+            <div class="card-front" :style="{ backgroundColor: colors[index] }">
+              <!-- {{ texts[index] }} -->
+            </div>
+            <div class="card-back" :style="{ backgroundColor: colors[index] }">
+              <!-- {{ texts[index] }} -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
+
+import { gsap } from "gsap";
 
 import luckyColors from "./colors";
 
@@ -71,6 +83,29 @@ const updateGrid = () => {
   }
 };
 
+let isFlipping = false;
+let currentIndex = -1;
+const flippedCards = ref(Array(64).fill(false));
+
+const flipCard = async (index) => {
+  if (!isFlipping) {
+    isFlipping = true;
+    currentIndex = index;
+
+    const cardInner =
+      gridContainerRef.value.querySelectorAll(".card-inner")[index];
+    gsap.to(cardInner, {
+      rotateY: "+=180",
+      duration: 0.5,
+      onComplete: () => {
+        flippedCards.value[index] = !flippedCards.value[index];
+        gsap.set(cardInner, { rotateY: "0" });
+        isFlipping = false;
+      },
+    });
+  }
+};
+
 onMounted(() => {
   updateGrid();
   window.addEventListener("resize", updateGrid);
@@ -93,5 +128,53 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  &.no-click {
+    cursor: not-allowed;
+  }
+}
+
+.card {
+  backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.card-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+}
+
+.card-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  position: absolute;
+}
+
+.card-front {
+  transform: rotateY(0deg);
+  z-index: 2;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  z-index: 1;
 }
 </style>
