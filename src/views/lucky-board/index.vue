@@ -169,6 +169,7 @@ const onAgain = () => {
 
 onMounted(() => {
   updateGrid();
+  initLuckyTextsAndColors();
   window.addEventListener("resize", updateGrid);
 });
 
