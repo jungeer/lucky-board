@@ -128,8 +128,6 @@ const isModalShow = ref(false);
 
 const flipCard = async (index) => {
   if (!isFlipping) {
-    fireworks.value.start();
-
     isFlipping = true;
     currentIndex = index;
 
