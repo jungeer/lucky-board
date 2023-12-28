@@ -1,6 +1,6 @@
 <template>
   <div class="grid-container" ref="gridContainerRef">
-    <!-- <template v-for="(cell, index) in gridData" :key="index">
+    <template v-for="(cell, index) in gridData" :key="index">
       <div
         :style="{
           width: cellWidths[index] + 'px',
@@ -13,15 +13,13 @@
         <div class="card">
           <div class="card-inner" :class="{ flipped: flippedCards[index] }">
             <div class="card-front" :style="{ backgroundColor: colors[index] }">
-              <!-- {{ texts[index] }} -->
             </div>
             <div class="card-back" :style="{ backgroundColor: colors[index] }">
-              <!-- {{ texts[index] }} -->
             </div>
           </div>
         </div>
       </div>
-    </template> -->
+    </template> 
   </div>
 </template>
 
