@@ -5,18 +5,16 @@
 </template>
 
 <script setup lang="ts">
-  import { ref } from "vue";
+import { Modal } from "ant-design-vue";
 
-  import { Modal } from "ant-design-vue";
+import LuckyBoard from "./lucky-board/index.vue";
 
-  import LuckyBoard from "./lucky-board/index.vue";
-
-  Modal.info({
-    title: "欢迎使用",
-    content: "请开始您的翻牌之旅 ~ 规则就是没有规则",
-    okText: "确定",
-    closable: false,
-    centered: true,
-    maskClosable: false,
-  })
+Modal.info({
+  title: "欢迎使用",
+  content: "请开始您的翻牌之旅 ~ 规则就是没有规则",
+  okText: "确定",
+  closable: false,
+  centered: true,
+  maskClosable: false,
+});
 </script>
