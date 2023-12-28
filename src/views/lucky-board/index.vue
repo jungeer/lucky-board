@@ -62,8 +62,6 @@ import { cloneDeep, random } from "lodash-es";
 
 import { gsap } from "gsap";
 
-import { Fireworks } from "fireworks-js";
-
 import luckyColors from "../js/colors";
 
 import luckyTexts from "../js/lucky-texts";
@@ -82,8 +80,6 @@ const gridData = Array.from({ length: 64 }).fill(null);
 const gridContainerRef = ref(null);
 const cellWidths = ref(Array(64).fill(0));
 const cellHeights = ref(Array(64).fill(0));
-
-const fireworks = ref(null);
 
 const updateGrid = () => {
   const gridContainer = gridContainerRef.value;
@@ -120,10 +116,6 @@ const updateGrid = () => {
         ? containerHeight - rowIndex * cellHeight
         : cellHeight;
   }
-
-  fireworks.value = new Fireworks(gridContainerRef.value, {
-    /* options */
-  });
 };
 
 let isFlipping = false;
@@ -154,13 +146,6 @@ const flipCard = async (index) => {
         await promiseTimeout(50);
 
         isModalShow.value = true;
-
-        nextTick(() => {
-          modalRef.value = new Fireworks(gridContainerRef.value, {
-            /* options */
-          });
-          modalRef.value.start();
-        });
       },
     });
   }
