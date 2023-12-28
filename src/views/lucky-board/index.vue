@@ -28,18 +28,18 @@
     ref="modalRef"
     v-model:open="isModalShow"
     centered
-    :maskClosable="false"
     :closable="false"
     :bodyStyle="{
       height: '300px',
     }"
+    @cancel="onAgain"
   >
     <template #title>
       <div class="text-center">{{ texts[currentIndex] }} 💐</div>
     </template>
 
     <div
-      class="h-300px"
+      class="h-300px flex items-center justify-center text-30px color-white"
       :style="{
         backgroundColor: colors[currentIndex],
       }"
@@ -49,7 +49,7 @@
 
     <template #footer>
       <div class="flex justify-center">
-        <a-button @click="onAgain">再来一次</a-button>
+        <!-- <a-button @click="onAgain">再来一次</a-button> -->
       </div>
     </template>
   </a-modal>
